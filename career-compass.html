@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Career Compass</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(135deg, #eef4ff, #f8f5ff);
+        color: #1f2937;
+        min-height: 100vh;
+    }
+
+    .container {
+        width: 92%;
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 35px 0;
+    }
+
+    .card {
+        background: white;
+        border-radius: 24px;
+        padding: 35px;
+        box-shadow: 0 15px 45px rgba(30, 50, 100, 0.12);
+    }
+
+    .logo {
+        text-align: center;
+        font-size: 48px;
+        margin-bottom: 5px;
+    }
+
+    h1 {
+        text-align: center;
+        color: #3157d5;
+        font-size: 38px;
+        margin: 5px 0 12px;
+    }
+
+    .subtitle {
+        text-align: center;
+        color: #667085;
+        line-height: 1.6;
+        font-size: 17px;
+        margin-bottom: 30px;
+    }
+
+    .start-area {
+        text-align: center;
+    }
+
+    button {
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 12px;
+        padding: 14px 25px;
+        transition: 0.2s;
+    }
+
+    .primary-btn {
+        background: #3157d5;
+        color: white;
+    }
+
+    .primary-btn:hover {
+        background: #2445b5;
+        transform: translateY(-2px);
+    }
+
+    .secondary-btn {
+        background: #eef2ff;
+        color: #3157d5;
+        margin-top: 15px;
+    }
+
+    .secondary-btn:hover {
+        background: #dfe6ff;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .progress-area {
+        margin-bottom: 25px;
+    }
+
+    .progress-text {
+        display: flex;
+        justify-content: space-between;
+        color: #667085;
+        font-size: 14px;
+        margin-bottom: 8px;
+    }
+
+    .progress-bar {
+        height: 9px;
+        background: #e8ecf4;
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    .progress-fill {
+        height: 100%;
+        background: #3157d5;
+        width: 0%;
+        transition: width 0.3s;
+    }
+
+    .question {
+        font-size: 25px;
+        line-height: 1.4;
+        margin-bottom: 25px;
+        color: #172033;
+    }
+
+    .option {
+        display: block;
+        width: 100%;
+        text-align: left;
+        background: #f8f9fc;
+        color: #25304a;
+        border: 2px solid #e8ebf2;
+        margin: 12px 0;
+        padding: 17px;
+        border-radius: 14px;
+        font-weight: normal;
+        line-height: 1.45;
+    }
+
+    .option:hover {
+        border-color: #3157d5;
+        background: #f1f4ff;
+    }
+
+    .option.selected {
+        border-color: #3157d5;
+        background: #e9efff;
+        color: #2143ad;
+    }
+
+    .next-area {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 25px;
+    }
+
+    .result-header {
+        text-align: center;
+    }
+
+    .result-icon {
+        font-size: 65px;
+        margin-bottom: 5px;
+    }
+
+    .result-title {
+        color: #3157d5;
+        font-size: 32px;
+        margin: 5px 0;
+    }
+
+    .result-description {
+        color: #667085;
+        line-height: 1.7;
+        font-size: 17px;
+    }
+
+    .result-box {
+        background: #f7f8ff;
+        border-radius: 18px;
+        padding: 22px;
+        margin-top: 22px;
+    }
+
+    .result-box h3 {
+        margin-top: 0;
+        color: #263b91;
+    }
+
+    .career-list {
+        padding-left: 20px;
+        line-height: 1.9;
+    }
+
+    .direction-label {
+        display: inline-block;
+        background: #e8edff;
+        color: #3157d5;
+        padding: 7px 12px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+
+    .secondary-result {
+        background: #fff8e7;
+        border-left: 5px solid #f0ad2c;
+        padding: 15px 18px;
+        border-radius: 10px;
+        margin-top: 20px;
+    }
+
+    .note {
+        font-size: 14px;
+        color: #7b8494;
+        line-height: 1.6;
+        margin-top: 25px;
+    }
+
+    @media (max-width: 600px) {
+        .container {
+            width: 95%;
+            padding: 15px 0;
+        }
+
+        .card {
+            padding: 22px;
+            border-radius: 18px;
+        }
+
+        h1 {
+            font-size: 31px;
+        }
+
+        .question {
+            font-size: 21px;
+        }
+
+        .logo {
+            font-size: 40px;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- START SCREEN -->
+    <div class="card" id="startScreen">
+
+        <div class="logo">🧭</div>
+
+        <h1>Career Compass</h1>
+
+        <p class="subtitle">
+            Discover career directions that may match your interests,
+            strengths, and the activities you enjoy.
+            <br><br>
+            There are no right or wrong answers.
+        </p>
+
+        <div class="start-area">
+            <button class="primary-btn" onclick="startQuiz()">
+                Start Quiz →
+            </button>
+        </div>
+
+    </div>
+
+
+    <!-- QUIZ SCREEN -->
+    <div class="card hidden" id="quizScreen">
+
+        <div class="progress-area">
+
+            <div class="progress-text">
+                <span id="questionNumber">Question 1 of 8</span>
+                <span id="progressPercent">13%</span>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+        </div>
+
+        <div id="questionText" class="question"></div>
+
+        <div id="options"></div>
+
+        <div class="next-area">
+
+            <button
+                id="nextButton"
+                class="primary-btn"
+                onclick="nextQuestion()">
+                Next →
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- RESULT SCREEN -->
+    <div class="card hidden" id="resultScreen">
+
+        <div class="result-header">
+
+            <div class="result-icon" id="resultIcon"></div>
+
+            <span class="direction-label">
+                YOUR CAREER DIRECTION
+            </span>
+
+            <h2 class="result-title" id="resultTitle"></h2>
+
+            <p class="result-description" id="resultDescription"></p>
+
+        </div>
+
+        <div class="secondary-result">
+
+            <strong>🔎 Another direction to explore:</strong>
+
+            <div id="secondaryDirection"></div>
+
+        </div>
+
+        <div class="result-box">
+
+            <h3>🌟 Career areas to explore</h3>
+
+            <ul class="career-list" id="careerList"></ul>
+
+        </div>
+
+        <div class="result-box">
+
+            <h3>🚀 Your next steps</h3>
+
+            <p id="nextSteps"></p>
+
+        </div>
+
+        <p class="note">
+            Remember: this result is a starting direction, not a decision
+            about your future. Explore different areas and see what you
+            actually enjoy.
+        </p>
+
+        <div style="text-align:center; margin-top:25px;">
+
+            <button
+                class="primary-btn"
+                onclick="restartQuiz()">
+                ↻ Take Quiz Again
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const questions = [
+
+    {
+        question: "What would you rather spend a Saturday doing?",
+        options: [
+            {
+                text: "Plan a small business idea and figure out how it could make money.",
+                category: "Business"
+            },
+            {
+                text: "Build or experiment with an app, device, or technology.",
+                category: "Technology"
+            },
+            {
+                text: "Investigate a question and find evidence to explain it.",
+                category: "Science"
+            },
+            {
+                text: "Create a visual, story, video, or other original idea.",
+                category: "Creative"
+            }
+        ]
+    },
+
+    {
+        question: "Which activity sounds most rewarding?",
+        options: [
+            {
+                text: "Help someone improve their health or wellbeing.",
+                category: "Health"
+            },
+            {
+                text: "Explain an issue, debate different views, or understand how rules affect people.",
+                category: "Law"
+            },
+            {
+                text: "Teach someone a skill or help a group communicate better.",
+                category: "People"
+            },
+            {
+                text: "Find ways to protect nature or use resources more sustainably.",
+                category: "Environment"
+            }
+        ]
+    },
+
+    {
+        question: "Which problem would you most enjoy solving?",
+        options: [
+            {
+                text: "How can we make a product or business more successful?",
+                category: "Business"
+            },
+            {
+                text: "How can we make a system faster, easier, or smarter using technology?",
+                category: "Technology"
+            },
+            {
+                text: "Why is something happening, and what evidence could explain it?",
+                category: "Science"
+            },
+            {
+                text: "How can we communicate an idea in a more creative and interesting way?",
+                category: "Creative"
+            }
+        ]
+    },
+
+    {
+        question: "Which project would you most likely volunteer for?",
+        options: [
+            {
+                text: "Organize a team and coordinate everyone's work.",
+                category: "People"
+            },
+            {
+                text: "Research a health or wellbeing topic and create useful advice.",
+                category: "Health"
+            },
+            {
+                text: "Study a social issue and suggest a policy or solution.",
+                category: "Law"
+            },
+            {
+                text: "Work on a project related to climate, farming, conservation, or sustainability.",
+                category: "Environment"
+            }
+        ]
+    },
+
+    {
+        question: "Which type of challenge interests you most?",
+        options: [
+            {
+                text: "Finding patterns in data and using evidence to reach a conclusion.",
+                category: "Science"
+            },
+            {
+                text: "Designing a product, service, or system that solves a practical problem.",
+                category: "Technology"
+            },
+            {
+                text: "Turning an idea into something visually appealing or engaging.",
+                category: "Creative"
+            },
+            {
+                text: "Finding a strategy that helps an organization reach its goals.",
+                category: "Business"
+            }
+        ]
+    },
+
+    {
+        question: "Which kind of work would you probably enjoy most?",
+        options: [
+            {
+                text: "Supporting, teaching, interviewing, or working closely with people.",
+                category: "People"
+            },
+            {
+                text: "Learning how the body and mind work and helping people live healthier lives.",
+                category: "Health"
+            },
+            {
+                text: "Understanding laws, government, international issues, or how society works.",
+                category: "Law"
+            },
+            {
+                text: "Solving problems involving climate, natural resources, or the environment.",
+                category: "Environment"
+            }
+        ]
+    },
+
+    {
+        question: "If you could learn one new skill, which would you choose?",
+        options: [
+            {
+                text: "Data analysis, experiments, or scientific research.",
+                category: "Science"
+            },
+            {
+                text: "Programming, robotics, or building digital systems.",
+                category: "Technology"
+            },
+            {
+                text: "Design, photography, filmmaking, or storytelling.",
+                category: "Creative"
+            },
+            {
+                text: "Marketing, business strategy, or entrepreneurship.",
+                category: "Business"
+            }
+        ]
+    },
+
+    {
+        question: "What kind of impact would feel most meaningful to you?",
+        options: [
+            {
+                text: "Help people learn, connect, or communicate.",
+                category: "People"
+            },
+            {
+                text: "Improve people's health, wellbeing, or quality of life.",
+                category: "Health"
+            },
+            {
+                text: "Help improve laws, policies, communities, or society.",
+                category: "Law"
+            },
+            {
+                text: "Help protect the environment and create a more sustainable future.",
+                category: "Environment"
+            }
+        ]
+    }
+
+];
+
+
+const careerData = {
+
+    Business: {
+        icon: "💼",
+        title: "Business & Entrepreneurship",
+        description:
+            "You seem interested in ideas, strategy, organizations, and creating value. You may enjoy understanding how businesses work and turning ideas into practical results.",
+        careers: [
+            "Entrepreneurship",
+            "Marketing",
+            "Finance",
+            "Management",
+            "Economics",
+            "Business Strategy"
+        ],
+        next:
+            "Try creating a small business idea, learning basic marketing, or planning a small project from beginning to end."
+    },
+
+    Technology: {
+        icon: "💻",
+        title: "Technology & Digital Systems",
+        description:
+            "You seem interested in technology, problem-solving, systems, and building things. You may enjoy understanding how digital tools work and finding better ways to solve problems.",
+        careers: [
+            "Software Development",
+            "Information Technology",
+            "Artificial Intelligence",
+            "Cybersecurity",
+            "Robotics",
+            "Engineering"
+        ],
+        next:
+            "Try building a small website, app, game, or technology project. You can start with beginner-friendly programming."
+    },
+
+    Science: {
+        icon: "🔬",
+        title: "Science & Research",
+        description:
+            "You seem interested in questions, evidence, investigation, and understanding how things work. You may enjoy discovering explanations and testing ideas.",
+        careers: [
+            "Biology",
+            "Chemistry",
+            "Physics",
+            "Scientific Research",
+            "Data Science",
+            "Laboratory Science"
+        ],
+        next:
+            "Try a small experiment, research project, or science topic that you genuinely find interesting."
+    },
+
+    Creative: {
+        icon: "🎨",
+        title: "Creative & Design",
+        description:
+            "You seem interested in creativity, ideas, visual communication, and creating original things. You may enjoy turning ideas into something people can see or experience.",
+        careers: [
+            "Graphic Design",
+            "UI/UX Design",
+            "Architecture",
+            "Animation",
+            "Photography",
+            "Film & Media"
+        ],
+        next:
+            "Create something you can show others, such as a poster, video, design, illustration, website, or short story."
+    },
+
+    People: {
+        icon: "👥",
+        title: "People & Communication",
+        description:
+            "You seem interested in people, communication, teaching, and helping groups work together. You may enjoy understanding people and sharing knowledge.",
+        careers: [
+            "Teaching",
+            "Psychology",
+            "Human Resources",
+            "Communication",
+            "Social Work",
+            "Training & Development"
+        ],
+        next:
+            "Try teaching someone a skill, organizing a group activity, volunteering, or practicing communication and presentation skills."
+    },
+
+    Health: {
+        icon: "🩺",
+        title: "Health & Wellbeing",
+        description:
+            "You seem interested in health, wellbeing, the human body, and helping people. You may enjoy learning how health works and finding ways to improve people's lives.",
+        careers: [
+            "Medicine",
+            "Nursing",
+            "Nutrition",
+            "Public Health",
+            "Pharmacy",
+            "Healthcare"
+        ],
+        next:
+            "Explore different health careers and learn about the subjects and skills they require. You could also try a health-awareness project."
+    },
+
+    Law: {
+        icon: "⚖️",
+        title: "Law & Public Policy",
+        description:
+            "You seem interested in rules, society, different viewpoints, and solving issues fairly. You may enjoy understanding how decisions, laws, and policies affect people.",
+        careers: [
+            "Law",
+            "Public Policy",
+            "Government",
+            "International Relations",
+            "Advocacy",
+            "Compliance"
+        ],
+        next:
+            "Try debating, researching a social issue, learning how laws work, or exploring how government and public policy affect communities."
+    },
+
+    Environment: {
+        icon: "🌱",
+        title: "Environment & Sustainability",
+        description:
+            "You seem interested in nature, resources, sustainability, and environmental problems. You may enjoy finding practical ways to protect the environment.",
+        careers: [
+            "Environmental Science",
+            "Conservation",
+            "Sustainability",
+            "Agriculture",
+            "Climate Studies",
+            "Natural Resource Management"
+        ],
+        next:
+            "Try an environmental project, learn about sustainability, volunteer for conservation activities, or explore environmental science."
+    }
+
+};
+
+
+let currentQuestion = 0;
+
+let selectedAnswer = null;
+
+let scores = {
+    Business: 0,
+    Technology: 0,
+    Science: 0,
+    Creative: 0,
+    People: 0,
+    Health: 0,
+    Law: 0,
+    Environment: 0
+};
+
+
+function startQuiz() {
+
+    document.getElementById("startScreen").classList.add("hidden");
+
+    document.getElementById("quizScreen").classList.remove("hidden");
+
+    currentQuestion = 0;
+
+    scores = {
+        Business: 0,
+        Technology: 0,
+        Science: 0,
+        Creative: 0,
+        People: 0,
+        Health: 0,
+        Law: 0,
+        Environment: 0
+    };
+
+    showQuestion();
+}
+
+
+function showQuestion() {
+
+    selectedAnswer = null;
+
+    const question = questions[currentQuestion];
+
+    document.getElementById("questionNumber").textContent =
+        "Question " + (currentQuestion + 1) + " of " + questions.length;
+
+    const percentage =
+        Math.round(((currentQuestion + 1) / questions.length) * 100);
+
+    document.getElementById("progressPercent").textContent =
+        percentage + "%";
+
+    document.getElementById("progressFill").style.width =
+        percentage + "%";
+
+    document.getElementById("questionText").textContent =
+        question.question;
+
+    const optionsContainer =
+        document.getElementById("options");
+
+    optionsContainer.innerHTML = "";
+
+    question.options.forEach((option, index) => {
+
+        const button = document.createElement("button");
+
+        button.className = "option";
+
+        button.textContent =
+            String.fromCharCode(65 + index) + ". " + option.text;
+
+        button.onclick = function() {
+
+            document
+                .querySelectorAll(".option")
+                .forEach(btn => btn.classList.remove("selected"));
+
+            button.classList.add("selected");
+
+            selectedAnswer = option;
+        };
+
+        optionsContainer.appendChild(button);
+
+    });
+
+    if (currentQuestion === questions.length - 1) {
+        document.getElementById("nextButton").textContent =
+            "See My Result 🎯";
+    } else {
+        document.getElementById("nextButton").textContent =
+            "Next →";
+    }
+}
+
+
+function nextQuestion() {
+
+    if (selectedAnswer === null) {
+
+        alert("Please choose one answer before continuing.");
+
+        return;
+    }
+
+    scores[selectedAnswer.category]++;
+
+    if (currentQuestion < questions.length - 1) {
+
+        currentQuestion++;
+
+        showQuestion();
+
+    } else {
+
+        showResult();
+
+    }
+}
+
+
+function showResult() {
+
+    document.getElementById("quizScreen").classList.add("hidden");
+
+    document.getElementById("resultScreen").classList.remove("hidden");
+
+    const sorted = Object.entries(scores)
+        .sort((a, b) => b[1] - a[1]);
+
+    const primary = sorted[0][0];
+
+    const secondary = sorted[1][0];
+
+    const result = careerData[primary];
+
+    document.getElementById("resultIcon").textContent =
+        result.icon;
+
+    document.getElementById("resultTitle").textContent =
+        result.title;
+
+    document.getElementById("resultDescription").textContent =
+        result.description;
+
+    document.getElementById("secondaryDirection").textContent =
+        careerData[secondary].title;
+
+    const careerList =
+        document.getElementById("careerList");
+
+    careerList.innerHTML = "";
+
+    result.careers.forEach(career => {
+
+        const li = document.createElement("li");
+
+        li.textContent = career;
+
+        careerList.appendChild(li);
+
+    });
+
+    document.getElementById("nextSteps").textContent =
+        result.next;
+}
+
+
+function restartQuiz() {
+
+    document.getElementById("resultScreen").classList.add("hidden");
+
+    document.getElementById("startScreen").classList.remove("hidden");
+
+    currentQuestion = 0;
+
+    scores = {
+        Business: 0,
+        Technology: 0,
+        Science: 0,
+        Creative: 0,
+        People: 0,
+        Health: 0,
+        Law: 0,
+        Environment: 0
+    };
+}
+
+</script>
+
+</body>
+</html>
