@@ -1232,8 +1232,10 @@ function showResult() {
 // ==========================================
 
 function startChallenge() {
-    window.location.href = "challenge.html";
-}
+    const direction = document.getElementById("resultTitle").textContent;
+    window.location.href = "challenge.html?direction=" + encodeURIComponent(direction);
+}    
+
     function restartQuiz() {
 
 
