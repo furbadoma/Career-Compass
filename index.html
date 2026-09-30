@@ -416,12 +416,11 @@ button {
 <div style="text-align:center; margin-top:25px;">
 
     <button
-        id="challengeButton"
-        class="primary-btn">
-
-        Start 7-Day Challenge →
-
-    </button>
+    id="challengeButton"
+    class="primary-btn"
+    onclick="startChallenge()">
+    Start 7-Day Challenge →
+</button>
 
 </div>
 
@@ -1232,7 +1231,10 @@ function showResult() {
 // RESTART QUIZ
 // ==========================================
 
-function restartQuiz() {
+function startChallenge() {
+    window.location.href = "challenge.html";
+}
+    function restartQuiz() {
 
 
     document
