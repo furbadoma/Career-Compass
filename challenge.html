@@ -41,6 +41,7 @@
         .header p {
             color: #666;
             font-size: 16px;
+            line-height: 1.5;
         }
 
         .progress {
@@ -50,6 +51,21 @@
             margin-bottom: 25px;
             text-align: center;
             box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #e8ebf0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 12px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: #222;
+            transition: width 0.3s ease;
         }
 
         .day {
@@ -80,6 +96,7 @@
 
         .arrow {
             font-size: 20px;
+            margin-left: 10px;
         }
 
         .day-content {
@@ -111,17 +128,48 @@
             padding-left: 12px;
             margin: 15px 0;
             color: #555;
+            line-height: 1.5;
         }
 
-        .video {
+        .helper {
+            background: white;
+            border: 1px solid #e3e6eb;
+            border-radius: 12px;
+            padding: 16px;
             margin: 18px 0;
         }
 
-        .video iframe {
-            width: 100%;
-            height: 315px;
-            border: none;
-            border-radius: 12px;
+        .helper-label {
+            font-size: 13px;
+            font-weight: bold;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 7px;
+        }
+
+        .helper h4 {
+            margin: 5px 0 8px;
+            font-size: 17px;
+        }
+
+        .helper p {
+            color: #555;
+            margin-bottom: 14px;
+        }
+
+        .resource-btn {
+            display: inline-block;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 9px;
+            background: #222;
+            color: white;
+            font-size: 14px;
+        }
+
+        .resource-btn:hover {
+            opacity: 0.85;
         }
 
         .complete-btn {
@@ -136,6 +184,88 @@
 
         .complete-btn.completed {
             background: #4caf50;
+        }
+
+        .final-section {
+            display: none;
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            margin-top: 25px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        .final-section.show {
+            display: block;
+        }
+
+        .final-section h2 {
+            margin-top: 0;
+        }
+
+        .feedback-group {
+            margin: 20px 0;
+        }
+
+        .feedback-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .feedback-group textarea {
+            width: 100%;
+            min-height: 90px;
+            padding: 12px;
+            border: 1px solid #d9dde3;
+            border-radius: 10px;
+            font-family: Arial, sans-serif;
+            resize: vertical;
+        }
+
+        .feedback-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d9dde3;
+            border-radius: 10px;
+            background: white;
+        }
+
+        .rating {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .star {
+            font-size: 30px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: #ccc;
+        }
+
+        .star.selected {
+            color: #f5b301;
+        }
+
+        .submit-feedback {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            background: #222;
+            color: white;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .feedback-success {
+            display: none;
+            margin-top: 18px;
+            padding: 15px;
+            background: #edf8ef;
+            border-radius: 10px;
+            color: #28753a;
         }
 
         .back-btn {
@@ -161,8 +291,12 @@
                 font-size: 26px;
             }
 
-            .video iframe {
-                height: 220px;
+            .container {
+                padding: 25px 15px 50px;
+            }
+
+            .day-content {
+                padding: 0 17px 20px;
             }
         }
     </style>
@@ -174,17 +308,151 @@
 
     <div class="header">
         <div class="emoji" id="directionEmoji">🌟</div>
-        <h1 id="challengeTitle">7-Day Career Challenge</h1>
+
+        <h1 id="challengeTitle">
+            7-Day Career Challenge
+        </h1>
+
         <p id="challengeDescription">
             Explore your career direction through one small activity each day.
         </p>
     </div>
 
     <div class="progress">
-        <strong id="progressText">0 of 7 days completed</strong>
+
+        <strong id="progressText">
+            0 of 7 days completed
+        </strong>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
     </div>
 
     <div id="challengeContainer"></div>
+
+    <div class="final-section" id="feedbackSection">
+
+        <h2>🎉 Challenge Complete!</h2>
+
+        <p>
+            You made it through all 7 days.
+            Now tell us what you think.
+        </p>
+
+        <div class="feedback-group">
+
+            <label>
+                What did you enjoy most?
+            </label>
+
+            <textarea
+                id="enjoyed"
+                placeholder="Tell us about your favorite part..."
+            ></textarea>
+
+        </div>
+
+        <div class="feedback-group">
+
+            <label>
+                What was the most difficult part?
+            </label>
+
+            <textarea
+                id="difficult"
+                placeholder="What was challenging for you?"
+            ></textarea>
+
+        </div>
+
+        <div class="feedback-group">
+
+            <label>
+                What did you learn?
+            </label>
+
+            <textarea
+                id="learned"
+                placeholder="Share one thing you learned..."
+            ></textarea>
+
+        </div>
+
+        <div class="feedback-group">
+
+            <label>
+                Which day was your favorite?
+            </label>
+
+            <select id="favoriteDay">
+
+                <option value="">
+                    Select a day
+                </option>
+
+                <option>Day 1</option>
+                <option>Day 2</option>
+                <option>Day 3</option>
+                <option>Day 4</option>
+                <option>Day 5</option>
+                <option>Day 6</option>
+                <option>Day 7</option>
+
+            </select>
+
+        </div>
+
+        <div class="feedback-group">
+
+            <label>
+                How would you rate this challenge?
+            </label>
+
+            <div class="rating">
+
+                <button class="star" onclick="setRating(1)">★</button>
+                <button class="star" onclick="setRating(2)">★</button>
+                <button class="star" onclick="setRating(3)">★</button>
+                <button class="star" onclick="setRating(4)">★</button>
+                <button class="star" onclick="setRating(5)">★</button>
+
+            </div>
+
+        </div>
+
+        <div class="feedback-group">
+
+            <label>
+                What would you improve?
+            </label>
+
+            <textarea
+                id="improve"
+                placeholder="Tell us what could make the challenge better..."
+            ></textarea>
+
+        </div>
+
+        <button
+            class="submit-feedback"
+            onclick="submitFeedback()">
+
+            Submit Feedback
+
+        </button>
+
+        <div
+            class="feedback-success"
+            id="feedbackSuccess">
+
+            ✓ Thank you for your feedback!
+            Your ideas can help improve future challenges.
+
+        </div>
+
+    </div>
 
     <button class="back-btn" onclick="history.back()">
         ← Back to Results
@@ -197,219 +465,523 @@
 const challenges = {
 
     "Business & Entrepreneurship": {
+
         emoji: "💼",
-        description: "Explore ideas, problem-solving, marketing, and entrepreneurship.",
+
+        description:
+            "Explore ideas, problem-solving, customers, branding, and entrepreneurship.",
+
         days: [
+
             {
-                title: "Find a Problem",
-                activity: "Look around your everyday life and find one small problem that people might want to solve.",
-                tip: "Write down who has this problem and why it matters."
+                title: "Spot a Problem",
+
+                activity:
+                    "Look around your everyday life and find one problem people might want to solve. Write down who has this problem and why it matters.",
+
+                tip:
+                    "Choose a real problem you have noticed at school, at home, or in your community."
             },
+
             {
                 title: "Create a Business Idea",
-                activity: "Turn your problem into a simple business idea. What product or service could help?",
-                tip: "Keep it simple. One clear idea is enough."
+
+                activity:
+                    "Turn your problem into a simple business idea. What product or service could help solve it?",
+
+                tip:
+                    "Keep your idea simple. One clear solution is enough."
             },
+
+            {
+                title: "Build Your Idea",
+
+                activity:
+                    "Learn how entrepreneurs turn problems into useful solutions. Then write a short description of your own product or service.",
+
+                helper: {
+                    type: "🎥 Video / Lesson",
+                    title: "Business idea & entrepreneurship basics",
+                    text: "Explore a beginner-friendly guide to organizing and developing a business idea.",
+                    url: "https://www.canva.com/online-whiteboard/business-model-canvas/"
+                }
+            },
+
             {
                 title: "Know Your Customer",
-                activity: "Imagine your ideal customer. Write down their age, interests, needs, and what they might want from your product."
+
+                activity:
+                    "Create a simple customer profile. Think about their age, interests, needs, and the problem your idea solves.",
+
+                tip:
+                    "Ask yourself: Why would this person actually use my product?"
             },
+
             {
-                title: "Build a Brand",
-                activity: "Choose a name for your business and create a simple logo or slogan."
+                title: "Build Your Business Model",
+
+                activity:
+                    "Use a Business Model Canvas to organize your idea. Focus on your customer, solution, value, costs, and possible revenue.",
+
+                helper: {
+                    type: "🖼️ Template",
+                    title: "Business Model Canvas",
+                    text: "Use Canva's customizable Business Model Canvas to map out your idea.",
+                    url: "https://www.canva.com/online-whiteboard/templates/business-model/"
+                }
             },
+
             {
-                title: "Think About Marketing",
-                activity: "Create a short social media post that could introduce your product to potential customers."
+                title: "Create Your Pitch",
+
+                activity:
+                    "Prepare a 30–60 second pitch: What is the problem? What is your solution? Who is it for? Why should people care?",
+
+                helper: {
+                    type: "📖 Guide",
+                    title: "Presentation Design Guide",
+                    text: "Learn how to organize a clear presentation and communicate one main idea.",
+                    url: "https://www.canva.com/learn/presentation-design/"
+                }
             },
-            {
-                title: "Make a Mini Plan",
-                activity: "Write three things you would need to start your idea: a product, people, tools, money, or something else."
-            },
+
             {
                 title: "Pitch Your Idea",
-                activity: "Give yourself 60 seconds to explain your business idea. What is the problem, what is your solution, and who is it for?"
+
+                activity:
+                    "Give your final 60-second pitch. Try to explain your business idea clearly without unnecessary details.",
+
+                tip:
+                    "Imagine you are explaining the idea to someone who has never heard it before."
             }
+
         ]
     },
+
 
     "Technology & Data": {
+
         emoji: "💻",
-        description: "Explore technology, digital tools, coding, information, and data.",
+
+        description:
+            "Explore technology, coding, digital tools, information, and data.",
+
         days: [
+
             {
-                title: "Spot Technology",
-                activity: "Choose three technologies you use every day and write down what problem each one solves."
+                title: "Technology Around You",
+
+                activity:
+                    "Choose three technologies you use every day. For each one, explain what problem it solves."
             },
+
             {
-                title: "Explore Data",
-                activity: "Collect a small set of information, such as your favorite types of music, books, or activities. Put the information into a simple table."
+                title: "Collect Some Data",
+
+                activity:
+                    "Choose a simple topic such as music, books, sports, or hobbies. Collect 5–10 pieces of information and put them into a simple table."
             },
+
             {
-                title: "Make a Chart",
-                activity: "Turn your information into a simple bar chart or pie chart. Think about what the chart tells you."
+                title: "Visualize Your Data",
+
+                activity:
+                    "Turn your data into a simple chart. Try a bar chart or pie chart and write one thing you notice.",
+
+                helper: {
+                    type: "📊 Interactive Guide",
+                    title: "Google Charts",
+                    text: "Explore different chart types and see how data can be presented visually.",
+                    url: "https://developers.google.com/chart/interactive/docs/gallery"
+                }
             },
+
             {
                 title: "Try Coding",
-                activity: "Try a beginner coding activity. Change a few lines of code and see what happens.",
-                tip: "You do not need to build a full program. The goal is simply to experiment."
+
+                activity:
+                    "Complete a beginner web-development activity. Experiment with HTML and change something on a simple webpage.",
+
+                helper: {
+                    type: "💻 Tutorial",
+                    title: "Your First Website",
+                    text: "MDN's beginner tutorial introduces HTML, CSS, JavaScript, and the basics of building a webpage.",
+                    url: "https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Your_first_website"
+                }
             },
+
             {
                 title: "Data Detective",
-                activity: "Look at a small table of information and find three interesting patterns or differences."
+
+                activity:
+                    "Look at your chart or table. Find three patterns, differences, or interesting observations.",
+
+                tip:
+                    "Do not just describe the numbers. Ask what they might tell you."
             },
+
             {
                 title: "Build Something Digital",
-                activity: "Create a tiny digital project: a simple webpage, presentation, spreadsheet, or digital design."
+
+                activity:
+                    "Create a tiny digital project: a webpage, presentation, spreadsheet, prototype, or digital design.",
+
+                helper: {
+                    type: "📖 Learning Hub",
+                    title: "MDN Web Development",
+                    text: "Explore beginner-friendly web development tutorials and choose one small skill to try.",
+                    url: "https://developer.mozilla.org/en-US/docs/Learn_web_development"
+                }
             },
+
             {
-                title: "Tech Reflection",
-                activity: "Write down which technology activity you enjoyed most and one technology skill you would like to learn next."
+                title: "Tech Showcase",
+
+                activity:
+                    "Present your mini digital project. Explain the problem, your solution, how it works, and what you learned."
             }
+
         ]
     },
+
 
     "Creative & Design": {
+
         emoji: "🎨",
-        description: "Explore visual ideas, design, creativity, photography, and storytelling.",
+
+        description:
+            "Explore visual ideas, design, creativity, photography, and storytelling.",
+
         days: [
+
             {
                 title: "Find Inspiration",
-                activity: "Find five designs, posters, photos, or illustrations you like. Write one thing you like about each."
+
+                activity:
+                    "Find five designs, posters, photos, or illustrations you like. Write one thing you like about each."
             },
+
             {
-                title: "Make a Sketch",
-                activity: "Draw a quick sketch of an object around you. Focus on basic shapes rather than making it perfect.",
-                video: "https://www.youtube.com/embed/0SI5TtLggLM",
-                videoTitle: "Beginner Canva Design Tutorial"
+                title: "Create a Moodboard",
+
+                activity:
+                    "Create a small moodboard using 3–5 images, 2–3 colors, and 2–3 words describing your style."
             },
+
+            {
+                title: "Learn Design Principles",
+
+                activity:
+                    "Explore the basic principles of design. Choose two principles and use them in one of your own designs.",
+
+                helper: {
+                    type: "📖 Design Guide",
+                    title: "Canva Design Principles",
+                    text: "Learn about composition, spacing, hierarchy, contrast, and other basic design principles.",
+                    url: "https://www.canva.com/learn/guide-to-understanding-design-principles/"
+                }
+            },
+
             {
                 title: "Design a Poster",
-                activity: "Create a simple poster for an imaginary event. Choose a title, image, colors, and layout.",
-                video: "https://www.youtube.com/embed/0SI5TtLggLM",
-                videoTitle: "Canva Poster Tutorial"
+
+                activity:
+                    "Create a simple poster for an imaginary event. Choose a title, image, colors, and layout.",
+
+                helper: {
+                    type: "🎥 Video Lesson",
+                    title: "Designing a Poster in Canva",
+                    text: "A beginner Canva Design School lesson about templates, fonts, images, colors, and visual hierarchy.",
+                    url: "https://www.canva.com/design-school/lessons/designing-your-poster-in-canva/"
+                }
             },
+
             {
                 title: "Photo Challenge",
-                activity: "Take three photos of the same object from different angles. Choose the one with the most interesting composition."
+
+                activity:
+                    "Take three photos of the same object from different angles. Choose the one with the most interesting composition.",
+
+                tip:
+                    "Think about balance, space, perspective, and where the viewer's eye goes first."
             },
-            {
-                title: "Create a Logo",
-                activity: "Invent a small brand and design a simple logo for it. Try using only a few shapes and colors."
-            },
+
             {
                 title: "Improve Your Design",
-                activity: "Look at one of your designs from this week. Change one thing about the layout, colors, text, or composition."
+
+                activity:
+                    "Choose one design from this week. Improve one thing: spacing, colors, text, composition, or visual hierarchy.",
+
+                helper: {
+                    type: "🖼️ Visual Guide",
+                    title: "Design Elements & Principles",
+                    text: "Use this visual guide for ideas when improving your design.",
+                    url: "https://www.canva.com/learn/design-elements-and-principles/"
+                }
             },
+
             {
                 title: "Mini Portfolio",
-                activity: "Choose your three favorite creative results from the week and put them together as a mini portfolio."
+
+                activity:
+                    "Choose your three favorite creative results from the week and put them together as a mini portfolio. Add a short description to each."
             }
+
         ]
     },
+
 
     "People & Communication": {
+
         emoji: "🗣️",
-        description: "Explore communication, teamwork, leadership, listening, and working with people.",
+
+        description:
+            "Explore communication, teamwork, storytelling, listening, and presenting.",
+
         days: [
+
             {
                 title: "Active Listening",
-                activity: "Have a short conversation with someone and focus on listening carefully without interrupting."
+
+                activity:
+                    "Have a short conversation with someone and focus on listening carefully. Do not interrupt. Afterwards, write one thing you learned from the conversation."
             },
+
             {
                 title: "Tell a Story",
-                activity: "Tell a one-minute story about something interesting that happened to you. Try to make the beginning, middle, and ending clear."
+
+                activity:
+                    "Tell a one-minute story about something interesting. Try to make the beginning, middle, and ending clear."
             },
+
+            {
+                title: "Learn Storytelling",
+
+                activity:
+                    "Watch a short TED-Ed lesson about storytelling. Then improve your one-minute story using one technique you learned.",
+
+                helper: {
+                    type: "🎥 TED-Ed Video",
+                    title: "4 Ways to Tell a Great Story",
+                    text: "A TED-Ed lesson from the Public Speaking 101 series about developing and sharing ideas through storytelling.",
+                    url: "https://www.ted.com/talks/ted_ed_4_ways_to_tell_a_great_story"
+                }
+            },
+
             {
                 title: "Interview Someone",
-                activity: "Prepare three questions and interview someone about something they enjoy doing."
+
+                activity:
+                    "Prepare three questions and interview someone about something they enjoy doing. Listen carefully to their answers."
             },
-            {
-                title: "Team Challenge",
-                activity: "Plan a small activity that two or more people can complete together."
-            },
+
             {
                 title: "Explain an Idea",
-                activity: "Choose a topic you know well and explain it in simple words as if you were teaching it to someone new."
+
+                activity:
+                    "Choose something you know well and explain it in simple words as if you were teaching it to someone new.",
+
+                helper: {
+                    type: "📖 Presentation Guide",
+                    title: "Canva Presentation Tips",
+                    text: "Explore practical tips for organizing and presenting ideas clearly.",
+                    url: "https://www.canva.com/design-school/resources/canva-tips-presentations/"
+                }
             },
+
             {
                 title: "Practice Speaking",
-                activity: "Record yourself giving a short 60-second presentation. Listen back and notice one thing you did well."
+
+                activity:
+                    "Record yourself giving a short 60-second presentation. Listen back and identify one thing you did well and one thing you could improve."
             },
+
             {
-                title: "Reflection",
-                activity: "Write down which communication activity felt easiest and which skill you would like to improve."
+                title: "Communication Challenge",
+
+                activity:
+                    "Explain the same idea to two different people. Change your explanation depending on your audience.",
+
+                helper: {
+                    type: "📖 Speaking Resource",
+                    title: "Public Speaking 101",
+                    text: "Explore TED-Ed's Public Speaking 101 series and choose another short lesson that interests you.",
+                    url: "https://www.ted.com/lessons?category=communication"
+                }
             }
+
         ]
     },
+
 
     "Health & Wellbeing": {
+
         emoji: "🌱",
-        description: "Explore everyday wellbeing, healthy habits, and ways to support yourself and others.",
+
+        description:
+            "Explore everyday wellbeing, healthy routines, rest, movement, and support.",
+
         days: [
+
             {
                 title: "Wellbeing Check-In",
-                activity: "Write down three things that help you feel comfortable, focused, or supported during a normal day."
+
+                activity:
+                    "Write down three things that help you feel comfortable, focused, or supported during a normal day."
             },
+
             {
-                title: "Healthy Routine",
-                activity: "Create a simple routine for one part of your day that helps you feel organized and prepared."
+                title: "Build a Healthy Routine",
+
+                activity:
+                    "Choose one part of your day and create a simple routine that helps you feel organized and prepared."
             },
+
             {
-                title: "Learn Something New",
-                activity: "Choose one wellbeing topic you are curious about and learn one reliable fact about it."
+                title: "Learn About Sleep",
+
+                activity:
+                    "Read the CDC resource about sleep and students. Write down three useful facts you learned.",
+
+                helper: {
+                    type: "📖 Health Guide",
+                    title: "Sleep & Health",
+                    text: "A CDC resource explaining why sleep matters for students and learning.",
+                    url: "https://www.cdc.gov/healthy-schools/sleep/index.html"
+                }
             },
+
             {
-                title: "Mindful Break",
-                activity: "Take a short quiet break from schoolwork or screens. Notice your surroundings and then return to your activity."
+                title: "Take a Mindful Break",
+
+                activity:
+                    "Take a short quiet break from schoolwork or screens. Notice your surroundings, then return to your activity."
             },
+
             {
-                title: "Help Someone",
-                activity: "Think of one simple, kind way you could support a friend, classmate, or family member."
+                title: "Movement & Wellbeing",
+
+                activity:
+                    "Explore the WHO guide on physical activity. Write down two benefits of regular movement for young people.",
+
+                helper: {
+                    type: "📖 WHO Guide",
+                    title: "Physical Activity",
+                    text: "WHO explains how regular physical activity supports physical and mental wellbeing.",
+                    url: "https://www.who.int/news-room/fact-sheets/detail/physical-activity"
+                }
             },
+
             {
-                title: "Wellbeing Activity",
-                activity: "Design a simple wellbeing activity that could be useful for students at your school."
+                title: "Support Someone",
+
+                activity:
+                    "Think of one simple, kind way you could support a friend, classmate, or family member.",
+
+                tip:
+                    "It can be as simple as listening, checking in, or offering practical help."
             },
+
             {
-                title: "Your Next Step",
-                activity: "Write down one healthy, realistic habit or wellbeing topic you would like to keep exploring."
+                title: "Your Wellbeing Plan",
+
+                activity:
+                    "Create a small wellbeing plan with three realistic things you want to continue exploring or practicing.",
+
+                helper: {
+                    type: "📖 Wellbeing Resource",
+                    title: "Mental Health of Adolescents",
+                    text: "Explore WHO's educational information about adolescent wellbeing, supportive environments, coping, and healthy habits.",
+                    url: "https://www.who.int/news-room/fact-sheets/adolescent-mental-health"
+                }
             }
+
         ]
     },
 
+
     "Society & Environment": {
+
         emoji: "🌍",
-        description: "Explore communities, environmental issues, and ways to make a positive difference.",
+
+        description:
+            "Explore communities, sustainability, environmental issues, and positive action.",
+
         days: [
+
             {
                 title: "Look Around",
-                activity: "Choose one issue you notice in your school, neighborhood, or community."
+
+                activity:
+                    "Choose one issue you notice in your school, neighborhood, or community. Describe what is happening and who may be affected."
             },
+
             {
-                title: "Learn About It",
-                activity: "Find out why this issue happens and who it affects."
+                title: "Understand the Bigger Picture",
+
+                activity:
+                    "Choose your issue and identify at least two possible causes and two groups of people who may be affected."
             },
+
             {
-                title: "Think Green",
-                activity: "Look at your everyday routine and identify one way to reduce unnecessary waste."
+                title: "Explore the Global Goals",
+
+                activity:
+                    "Explore the UN Sustainable Development Goals. Choose one goal connected to your local issue and explain the connection.",
+
+                helper: {
+                    type: "🖼️ Visual Guide",
+                    title: "UN Sustainable Development Goals",
+                    text: "Explore the 17 Sustainable Development Goals and find one that connects to your topic.",
+                    url: "https://www.un.org/sustainabledevelopment/development-goals/"
+                }
             },
+
             {
-                title: "Community Idea",
-                activity: "Design a small project that could help your school or community."
+                title: "Think About Solutions",
+
+                activity:
+                    "Create three possible solutions to your chosen issue. They can be small, creative, or long-term."
             },
+
+            {
+                title: "Learn From Youth Action",
+
+                activity:
+                    "Explore how young people are involved in environmental action. Write down one idea that could inspire your own project.",
+
+                helper: {
+                    type: "🌱 Youth Resource",
+                    title: "UNEP Youth Action",
+                    text: "Explore UNEP programs and challenges that support young people in environmental action.",
+                    url: "https://www.unep.org/topics/youth-education-and-environment/youth-action"
+                }
+            },
+
             {
                 title: "Create a Campaign",
-                activity: "Make a simple poster or social media-style message encouraging people to care about your chosen issue."
+
+                activity:
+                    "Make a simple poster, announcement, or social-media-style message encouraging people to learn more about your chosen issue.",
+
+                helper: {
+                    type: "📖 Guide",
+                    title: "UNEP: Education & Environment",
+                    text: "Learn why environmental education and youth participation matter for sustainable development.",
+                    url: "https://www.unep.org/explore-topics/education-environment/why-does-education-and-environment-matter"
+                }
             },
+
             {
-                title: "Take Action",
-                activity: "Choose one small, safe action you can take to contribute to your project idea."
-            },
-            {
-                title: "Make a Difference",
-                activity: "Reflect on what you learned and write one bigger idea you would like to explore in the future."
+                title: "Make an Action Plan",
+
+                activity:
+                    "Create your final action plan: Problem → Solution → Who can help → First step → How you will know it helped.",
+
+                tip:
+                    "Keep your first step small and realistic."
             }
+
         ]
     }
 
@@ -421,6 +993,33 @@ function getDirection() {
     const params = new URLSearchParams(window.location.search);
 
     return params.get("direction");
+
+}
+
+
+function getStorageKey(direction) {
+
+    return "challenge-progress-" + direction;
+
+}
+
+
+function getCompletedDays(direction) {
+
+    const saved =
+        localStorage.getItem(getStorageKey(direction));
+
+    return saved ? JSON.parse(saved) : [];
+
+}
+
+
+function saveCompletedDays(direction, completedDays) {
+
+    localStorage.setItem(
+        getStorageKey(direction),
+        JSON.stringify(completedDays)
+    );
 
 }
 
@@ -443,7 +1042,8 @@ function createChallenge() {
         return;
     }
 
-    document.getElementById("directionEmoji").textContent = challenge.emoji;
+    document.getElementById("directionEmoji").textContent =
+        challenge.emoji;
 
     document.getElementById("challengeTitle").textContent =
         direction + ": 7-Day Challenge";
@@ -451,41 +1051,71 @@ function createChallenge() {
     document.getElementById("challengeDescription").textContent =
         challenge.description;
 
-    const container = document.getElementById("challengeContainer");
+    const container =
+        document.getElementById("challengeContainer");
+
+    const completedDays =
+        getCompletedDays(direction);
 
     challenge.days.forEach((day, index) => {
 
         const dayNumber = index + 1;
 
-        const dayElement = document.createElement("div");
+        const dayElement =
+            document.createElement("div");
 
         dayElement.className = "day";
 
-        let videoHTML = "";
+        let helperHTML = "";
 
-        if (day.video) {
-            videoHTML = `
-                <div class="video">
-                    <p><strong>🎥 Watch this short tutorial:</strong></p>
-                    <iframe
-                        src="${day.video}"
-                        title="${day.videoTitle}"
-                        allowfullscreen>
-                    </iframe>
+        if (day.helper) {
+
+            helperHTML = `
+                <div class="helper">
+
+                    <div class="helper-label">
+                        ${day.helper.type}
+                    </div>
+
+                    <h4>
+                        ${day.helper.title}
+                    </h4>
+
+                    <p>
+                        ${day.helper.text}
+                    </p>
+
+                    <a
+                        class="resource-btn"
+                        href="${day.helper.url}"
+                        target="_blank"
+                        rel="noopener noreferrer">
+
+                        Open Resource →
+
+                    </a>
+
                 </div>
             `;
+
         }
+
+        const isCompleted =
+            completedDays.includes(dayNumber);
 
         dayElement.innerHTML = `
 
-            <button class="day-header"
+            <button
+                class="day-header"
                 onclick="toggleDay(this)">
 
                 <span>
                     Day ${dayNumber} — ${day.title}
                 </span>
 
-                <span class="arrow">+</span>
+                <span class="arrow">
+                    +
+                </span>
 
             </button>
 
@@ -493,23 +1123,36 @@ function createChallenge() {
 
                 <div class="activity">
 
-                    <h3>🎯 Your activity</h3>
+                    <h3>
+                        🎯 Your Activity
+                    </h3>
 
-                    <p>${day.activity}</p>
+                    <p>
+                        ${day.activity}
+                    </p>
 
-                    ${day.tip ? `
-                        <div class="tip">
-                            💡 <strong>Tip:</strong> ${day.tip}
-                        </div>
-                    ` : ""}
+                    ${
+                        day.tip
+                        ? `
+                            <div class="tip">
+                                💡 <strong>Tip:</strong>
+                                ${day.tip}
+                            </div>
+                          `
+                        : ""
+                    }
 
-                    ${videoHTML}
+                    ${helperHTML}
 
                     <button
-                        class="complete-btn"
-                        onclick="completeDay(this)">
+                        class="complete-btn ${isCompleted ? "completed" : ""}"
+                        onclick="completeDay(this, ${dayNumber})">
 
-                        Mark as complete
+                        ${
+                            isCompleted
+                            ? "✓ Completed"
+                            : "Mark as complete"
+                        }
 
                     </button>
 
@@ -522,52 +1165,188 @@ function createChallenge() {
 
     });
 
+    updateProgress();
+    checkFeedback();
+
 }
 
 
 function toggleDay(button) {
 
-    const content = button.nextElementSibling;
+    const content =
+        button.nextElementSibling;
 
-    const arrow = button.querySelector(".arrow");
+    const arrow =
+        button.querySelector(".arrow");
 
     content.classList.toggle("open");
 
     if (content.classList.contains("open")) {
+
         arrow.textContent = "−";
+
     } else {
+
         arrow.textContent = "+";
+
     }
 
 }
 
 
-function completeDay(button) {
+function completeDay(button, dayNumber) {
 
-    button.classList.toggle("completed");
+    const direction =
+        getDirection();
 
-    if (button.classList.contains("completed")) {
+    let completedDays =
+        getCompletedDays(direction);
 
-        button.textContent = "✓ Completed";
+    if (completedDays.includes(dayNumber)) {
+
+        completedDays =
+            completedDays.filter(
+                day => day !== dayNumber
+            );
+
+        button.classList.remove("completed");
+
+        button.textContent =
+            "Mark as complete";
 
     } else {
 
-        button.textContent = "Mark as complete";
+        completedDays.push(dayNumber);
+
+        completedDays.sort(
+            (a, b) => a - b
+        );
+
+        button.classList.add("completed");
+
+        button.textContent =
+            "✓ Completed";
 
     }
 
+    saveCompletedDays(
+        direction,
+        completedDays
+    );
+
     updateProgress();
+    checkFeedback();
 
 }
 
 
 function updateProgress() {
 
+    const direction =
+        getDirection();
+
     const completed =
-        document.querySelectorAll(".complete-btn.completed").length;
+        getCompletedDays(direction).length;
 
     document.getElementById("progressText").textContent =
         completed + " of 7 days completed";
+
+    const percentage =
+        (completed / 7) * 100;
+
+    document.getElementById("progressFill").style.width =
+        percentage + "%";
+
+}
+
+
+function checkFeedback() {
+
+    const direction =
+        getDirection();
+
+    const completed =
+        getCompletedDays(direction).length;
+
+    const feedbackSection =
+        document.getElementById("feedbackSection");
+
+    if (completed === 7) {
+
+        feedbackSection.classList.add("show");
+
+    } else {
+
+        feedbackSection.classList.remove("show");
+
+    }
+
+}
+
+
+let selectedRating = 0;
+
+
+function setRating(number) {
+
+    selectedRating = number;
+
+    const stars =
+        document.querySelectorAll(".star");
+
+    stars.forEach((star, index) => {
+
+        if (index < number) {
+
+            star.classList.add("selected");
+
+        } else {
+
+            star.classList.remove("selected");
+
+        }
+
+    });
+
+}
+
+
+function submitFeedback() {
+
+    const direction =
+        getDirection();
+
+    const feedback = {
+
+        direction: direction,
+
+        enjoyed:
+            document.getElementById("enjoyed").value,
+
+        difficult:
+            document.getElementById("difficult").value,
+
+        learned:
+            document.getElementById("learned").value,
+
+        favoriteDay:
+            document.getElementById("favoriteDay").value,
+
+        rating:
+            selectedRating,
+
+        improve:
+            document.getElementById("improve").value
+
+    };
+
+    localStorage.setItem(
+        "challenge-feedback-" + direction,
+        JSON.stringify(feedback)
+    );
+
+    document.getElementById("feedbackSuccess").style.display =
+        "block";
 
 }
 
